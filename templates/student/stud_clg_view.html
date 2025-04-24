@@ -1,0 +1,44 @@
+{% extends 'student/common.html' %}
+{% load static %}
+{% block content %}
+
+<div class="inner-page-wrapper course-wrapper">
+
+  <div class="container">
+
+    <p>Total colleges: {{ data|length }}</p>  {# Debug line - remove if not needed #}
+
+    <div class="row offset-top-40">
+      {% for i in data %}
+        {% if i.user.is_active %}
+        <div class="col-sm-6 col-md-4">
+
+          <div class="single-item">
+
+            <div class="single-item-image overlay-effect">
+              <a href="#"><img src="./static/assets/{{i.image}}" alt="College Image"></a>
+            </div>
+            
+            <div class="single-item-text">
+              <h4><a href="#">Name: {{ i.name }}</a></h4>
+
+              <div class="single-item-text-info">
+                <span>Location: <span>{{ i.location }}</span></span>
+              </div>
+
+              <p>Email: {{ i.email }}</p>
+              <p>Contact: {{ i.phone }}</p>
+            </div>
+
+          </div>
+
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

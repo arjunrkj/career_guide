@@ -1,0 +1,68 @@
+{% extends 'student/common.html' %}
+{% load static %}
+
+{% block content %}
+  <h2>Eligible Colleges and Courses</h2>
+  <p>Your GPA: {{ total_sum }}</p>
+  <br /><br />
+
+  {% if data %}
+    <div class="college-list row">
+      {% for i in data %}
+        <div class="col-sm-6 col-md-4">
+          <div class="single-item">
+            <div class="single-item-image overlay-effect">
+              <a href="#"><img src="./static/assets/{{i.image}}" alt="College Image" /></a>
+            </div>
+
+            <div class="single-item-text">
+              <h4><a href="#">Name: {{ i.name }}</a></h4>
+              <div class="single-item-text-info">
+                <span>Location: <span>{{ i.location }}</span></span>
+              </div>
+              <p>Email: {{ i.email }}</p>
+              <p>Contact: {{ i.phone }}</p>
+            </div>
+
+            <div class="button-bottom">
+              <a class="btn button-default" id="btntoshow-{{ forloop.counter }}">Courses</a>
+            </div>
+          </div>
+
+          <div class="inner-page-wrapper course-wrapper" id="showcourse-{{ forloop.counter }}" style="display: none;">
+            <div class="container">
+              <div class="col-sm-12 col-md-12">
+                <div class="single-item">
+                  <div class="single-item-text">
+                    {% for course in i.eligible_courses %}
+                      <h4><a href="#">Name: {{ course.name }}</a></h4>
+                      <div class="single-item-text-info">
+                        <span>Duration: <span>{{ course.duration }}</span></span>
+                      </div>
+                      <p>Fees: ₹{{ course.fees }}</p>
+                      <p>GPA Required: {{ course.gpa }}</p>
+                      <p>{{ course.details }}</p>
+                      <hr />
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+          <script>
+            $(document).ready(function () {
+              $("#btntoshow-{{ forloop.counter }}").click(function () {
+                $("#showcourse-{{ forloop.counter }}").toggle();
+              });
+            });
+          </script>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No colleges and courses available for your GPA.</p>
+  {% endif %}
+{% endblock %}
+

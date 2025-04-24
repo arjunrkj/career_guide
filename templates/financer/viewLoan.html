@@ -1,0 +1,40 @@
+{% extends 'financer/common.html' %}
+{% load static %}
+{% block content %}
+
+<div class="inner-page-wrapper course-wrapper">
+  <div class="container">
+    <div class="row offset-top-40">
+      {% for i in data %}
+      <div class="col-sm-6 col-md-4">
+        <div class="single-item">
+          <div class="single-item-image overlay-effect">
+            <a href="#"><img src="./static/assets/{{i.image}}" alt=""></a>
+          </div>
+
+          <div class="single-item-text">
+            <h4><a href="#">Name: {{ i.name }}</a></h4>
+            <div class="single-item-text-info">
+              <span>Provider: <span>{{ i.provider }}</span></span>
+            </div>
+
+            <p>Interest Rate: {{ i.interest_rate }}</p>
+            <p>Max Amount: {{ i.max_amount }}</p>
+            <p>Tenure (Years): {{ i.tenure_years }}</p>
+            <p>Eligible GPA: {{ i.eligibile_gpa }}</p>
+            <p>Details: {{ i.details }}</p>
+          </div>
+
+          {% if i.fin.id == current_user.id %}
+          <div class="button-bottom">
+            <a href="/delLoan?id={{ i.id }}" class="btn button-default">Delete</a>
+          </div>
+        {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

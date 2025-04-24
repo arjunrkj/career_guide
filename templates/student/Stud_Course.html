@@ -1,0 +1,70 @@
+{% extends 'student/common.html' %}
+{% load static %}
+{% block content %}
+
+<form class="example" action="" method="POST">
+  {% csrf_token %}
+  <input 
+    type="text" 
+    placeholder="Search.." 
+    name="search_term" 
+    value="{{ search_term }}" 
+    style="background-color: lightyellow; color: lightblue; border: 2px solid lightblue; padding: 5px;"
+  >
+  <button 
+    type="submit" 
+    style="background-color: lightblue; color: white; border: none; padding: 6px 10px; cursor: pointer;"
+  >
+    <i href="Stud_Course" class="fa fa-search" style="color: white;"></i>
+  </button>
+</form>
+{% if data.exists %}
+<h3>{% if search_term %}Search Results{% else %}All Course{% endif %}:</h3>
+<div class="inner-page-wrapper course-wrapper">
+
+    <div class="container">
+  
+      <div class="row offset-top-40">
+        {% for i in data %}
+        <div class="col-sm-6 col-md-4">
+
+          <div class="single-item">
+  
+            {% comment %} <div class="single-item-image overlay-effect"> <a href="#"><img src="images/courses-img1.jpg" alt=""></a> </div>
+   {% endcomment %}
+            <div class="single-item-text">
+  
+              <h4><a href="">Name:: {{i.name}}</a></h4>
+  
+              <div class="single-item-text-info"> <span>Duration: <span>{{i.duration}}</span></span> </div>
+              <p>Fees ::{{i.fees}}</p>
+              <p>GPA :: students with more than {{i.gpa}}% mark can join </p>
+  
+              <p>{{i.details}}</p>
+  
+              {% comment %} <div class="single-item-content">
+  
+                <div class="single-item-comment-view"> <span><i class="fa fa-eye"></i>259</span> <span><i class="fa fa-comment-o"></i>19</span> </div>
+  
+                <div class="single-item-rating"> <i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i> </div>
+  
+              </div>
+   {% endcomment %}
+            </div>
+           
+  
+            <div class="button-bottom"> <a  href="/job_vacancy?id={{i.id}}"  class="btn button-default"> Join</a> 
+            
+            </div>
+  
+          </div>
+  
+        </div>
+      </div>
+   
+  {% endfor %}
+  {% endif %}
+    </div>
+  
+  </div>
+  {% endblock %}
