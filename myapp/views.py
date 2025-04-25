@@ -404,27 +404,32 @@ def update(request):
 def collegeUpdate(request):
     uid = request.GET.get('uid')
     datas = College.objects.filter(user=uid)
+
     if request.method == 'POST':
         name = request.POST.get("name")
-        phone  = request.POST.get("phone")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        phone = request.POST.get("phone")
         location = request.POST.get("location")
         image = request.FILES.get("image")
 
-        if 'image' in request.FILES:
-            image = request.FILES.get('image')
-            data = College.objects.get(user=uid)
-            data.name = name
-            data. phone =  phone 
-            data.location= location
-            data.image = image
-            data.save()
-        else:
-            # If no new image is uploaded, update without changing the image
-            Student.objects.filter(user=uid).update(name=name,phone=phone,location=location)
+        data = College.objects.get(user=uid)
+        data.name = name
+        data.email = email
+        data.password = password
+        data.phone = phone
+        data.location = location
 
-        messages.success(request, ' updated successfully')
+        if image:
+            data.image = image  # Only update image if provided
+
+        data.save()  # Save all fields at once
+
+        messages.success(request, 'Profile updated successfully')
         return redirect('/clgview')
-    return render(request,"college/collegeUpdate.html",{'datas':datas})
+
+    return render(request, "college/collegeUpdate.html", {'datas': datas})
+
 
 def std_results(request):
     data=Answer.objects.all()
@@ -449,31 +454,34 @@ def student_Profile(request):
 
 def UpdateStud(request):
     uid = request.GET.get('uid')
-    datas = Student.objects.filter(user=uid)
+    student = Student.objects.get(user=uid)
+
     if request.method == 'POST':
         name = request.POST.get("name")
-        phone  = request.POST.get("phone")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        phone = request.POST.get("phone")
         location = request.POST.get("location")
         qualification = request.POST.get("qualification")
-        image = request.FILES.get("image")
+
+        # Update all fields
+        student.name = name
+        student.email = email
+        student.password = password
+        student.phone = phone
+        student.location = location
+        student.qualification = qualification
 
         if 'image' in request.FILES:
-            image = request.FILES.get('image')
-            data = Student.objects.get(user=uid)
-            data.name = name
-            data. phone =  phone 
-            data.location= location
-            data.qualification=qualification
-            data.image = image
-            data.save()
-        else:
-            # If no new image is uploaded, update without changing the image
-            Student.objects.filter(user=uid).update(name=name,phone=phone,location=location,qualification=qualification)
+            student.image = request.FILES.get('image')
+
+        student.save()
 
         messages.success(request, 'Profile updated successfully')
         return redirect('/student_Profile')
 
-    return render(request,"student/UpdateStud.html",{'datas':datas})
+    return render(request, "student/UpdateStud.html", {'student': student})
+
 
 
 
